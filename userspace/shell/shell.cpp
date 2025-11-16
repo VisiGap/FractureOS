@@ -1,9 +1,7 @@
 // FractureOS Shell
 // Command-line interface
 
-#include "../../lib/libfracture/include/types.h"
 #include "../../lib/libfracture/include/io.h"
-#include "../../lib/libfracture/include/string.h"
 
 namespace fracture {
 namespace shell {

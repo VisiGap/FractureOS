@@ -2,28 +2,32 @@
 #define FRACTURE_TYPES_H
 
 // Basic type definitions for FractureOS
+// Use compiler built-in types to avoid conflicts
 
-// Integer types
-typedef signed char int8_t;
-typedef unsigned char uint8_t;
-typedef signed short int16_t;
-typedef unsigned short uint16_t;
-typedef signed int int32_t;
-typedef unsigned int uint32_t;
-typedef signed long long int64_t;
-typedef unsigned long long uint64_t;
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-// Size types
-typedef unsigned long long size_t;
-typedef long long ssize_t;
-typedef long long ptrdiff_t;
+// Use compiler built-in types
+typedef __INT8_TYPE__ int8_t;
+typedef __UINT8_TYPE__ uint8_t;
+typedef __INT16_TYPE__ int16_t;
+typedef __UINT16_TYPE__ uint16_t;
+typedef __INT32_TYPE__ int32_t;
+typedef __UINT32_TYPE__ uint32_t;
+typedef __INT64_TYPE__ int64_t;
+typedef __UINT64_TYPE__ uint64_t;
 
-// Pointer types
-typedef unsigned long long uintptr_t;
-typedef long long intptr_t;
+typedef __SIZE_TYPE__ size_t;
+typedef __PTRDIFF_TYPE__ ptrdiff_t;
+typedef __INTPTR_TYPE__ intptr_t;
+typedef __UINTPTR_TYPE__ uintptr_t;
 
-// Boolean
-typedef bool bool_t;
+// ssize_t is not a built-in
+#ifndef _SSIZE_T_DEFINED
+#define _SSIZE_T_DEFINED
+typedef __INTPTR_TYPE__ ssize_t;
+#endif
 
 // NULL definition
 #ifndef NULL
@@ -32,6 +36,10 @@ typedef bool bool_t;
 #else
 #define NULL ((void*)0)
 #endif
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif // FRACTURE_TYPES_H

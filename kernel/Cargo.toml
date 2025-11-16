@@ -1,6 +1,6 @@
 [package]
 name = "fracture-kernel"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["FractureOS Team"]
 
@@ -11,6 +11,7 @@ lazy_static = { version = "1.4", features = ["spin_no_std"] }
 bitflags = "2.4"
 x86_64 = "0.14"
 uart_16550 = "0.3"
+pic8259 = "0.11"
 
 [profile.dev]
 panic = "abort"
@@ -22,5 +23,3 @@ opt-level = 3
 
 [lib]
 crate-type = ["staticlib"]
-
-pic8259 = "0.11"
