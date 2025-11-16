@@ -1,11 +1,11 @@
+use spin::Mutex;
 use x86_64::{
     structures::paging::{
-        PageTable, OffsetPageTable, PhysFrame, Size4KiB, FrameAllocator,
-        Page, PageTableFlags, Mapper, mapper::MapToError,
+        mapper::MapToError, FrameAllocator, Mapper, OffsetPageTable, Page, PageTable,
+        PageTableFlags, PhysFrame, Size4KiB,
     },
-    VirtAddr, PhysAddr,
+    PhysAddr, VirtAddr,
 };
-use spin::Mutex;
 
 pub const PHYSICAL_MEMORY_OFFSET: u64 = 0xFFFF_8000_0000_0000;
 
@@ -16,9 +16,7 @@ pub unsafe fn init(physical_memory_offset: VirtAddr) -> OffsetPageTable<'static>
 }
 
 /// Get active level 4 page table
-unsafe fn active_level_4_table(physical_memory_offset: VirtAddr)
-    -> &'static mut PageTable
-{
+unsafe fn active_level_4_table(physical_memory_offset: VirtAddr) -> &'static mut PageTable {
     use x86_64::registers::control::Cr3;
 
     let (level_4_table_frame, _) = Cr3::read();

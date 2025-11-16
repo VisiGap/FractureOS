@@ -7,17 +7,17 @@ extern crate alloc;
 
 use core::panic::PanicInfo;
 
-pub mod memory;
-pub mod interrupts;
-pub mod gdt;
-pub mod serial;
-pub mod vga;
 pub mod allocator;
-pub mod process;
-pub mod syscall;
+pub mod gdt;
+pub mod interrupts;
 pub mod ipc;
-pub mod signal;
+pub mod memory;
+pub mod process;
+pub mod serial;
 pub mod shm;
+pub mod signal;
+pub mod syscall;
+pub mod vga;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
@@ -70,7 +70,7 @@ pub extern "C" fn _start() -> ! {
 
     serial_println!("Kernel initialized successfully");
     serial_println!("Entering idle loop...");
-    
+
     hlt_loop();
 }
 
