@@ -1,0 +1,19 @@
+CompileFlags:
+  Add:
+    - -std=c++20
+    - -ffreestanding
+    - -nostdlib
+    - -I../../lib/libfracture/include
+    - -I../lib/libfracture/include
+    - -Ilib/libfracture/include
+  Remove:
+    - -stdlib=*
+
+Diagnostics:
+  UnusedIncludes: None
+  MissingIncludes: Strict
+  
+InlayHints:
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes

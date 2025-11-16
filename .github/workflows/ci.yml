@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  kernel:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Rust nightly
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
+        components: rust-src, llvm-tools-preview, clippy, rustfmt
+    
+    - name: Check formatting
+      run: cd kernel && cargo fmt -- --check
+    
+    - name: Clippy
+      run: cd kernel && cargo clippy -- -D warnings
+    
+    - name: Build kernel
+      run: cd kernel && cargo build --release
+    
+    - name: Run tests
+      run: cd kernel && cargo test
+
+  userspace:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential nasm
+    
+    - name: Build userspace
+      run: make userspace
+
+  integration:
+    runs-on: ubuntu-latest
+    needs: [kernel, userspace]
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential nasm qemu-system-x86
+    
+    - name: Install Rust nightly
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
+        components: rust-src, llvm-tools-preview
+    
+    - name: Full build
+      run: make all
